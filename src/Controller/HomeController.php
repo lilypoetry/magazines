@@ -42,6 +42,7 @@ class HomeController extends AbstractController
         ]);
     }
 
+    // crée une route pour afficher une formulaire ajout d'une nouvelle category
     #[Route('category/new', name: 'category_new')]
     public function newCategory(Request $request, CategoryRepository $categoryRepository): Response
     {
@@ -67,6 +68,7 @@ class HomeController extends AbstractController
         ]);
     }
 
+    // Crée une route pour afficher une formulaire ajoute d'un nouveau magazine
     #[Route('/magazine/new', name: 'new_magazine')]
     public function new(Request $request, MagazineRepository $magazineRepository): Response
     {
@@ -85,10 +87,10 @@ class HomeController extends AbstractController
         return $this->render('home/new.html.twig', [
             'form' => $form->createView()
         ]);
-
         
     }
 
+    // Creée une route pour editer une category
     #[Route('/category/edit/{id}', name: 'edit_category', requirements: ['id' => '\d+'])]
     public function edit(Category $category, CategoryRepository $categoryRepository, Request $request): Response
     {
@@ -109,6 +111,7 @@ class HomeController extends AbstractController
         ]);
     }
 
+    // Créer une route pour supprime une category
     #[Route('/category/delete/{id}', name: 'delete_category', requirements: ['id' => '\d+'], methods: ['POST'])]
     public function delete(Category $category, CategoryRepository $categoryRepository, Request $request): RedirectResponse
     {
@@ -123,6 +126,44 @@ class HomeController extends AbstractController
         }
 
         return $this->redirectToRoute('category_list');
+    }
+
+    // Creée une route pour editer un magazine
+    /* #[Route('/magazine/edit/{id}', name: 'edit_magazine', requirements: ['id' => '\d+'])]
+    public function edit(Magazine $magazine, MagazineRepository $magazineRepository, Request $request): Response
+    {
+        // $magazine = new Magazine(); est recuperer dans edit(Magazine $magazine, ...)
+        $form = $this->createForm(MagazineFormType::class, $magazine);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $magazineRepository->add($magazine, true);
+            $this->addFlash('success', 'Le magazine à bien été enregistrée');            
+
+            return $this->redirectToRoute('details_magazine');
+        }
+        return $this->render('home/editmag.html.twig', [
+            'form' => $form->createView()
+        ]);
+    } */
+
+    // Créer une route pour supprime un magazine
+    #[Route('/magazine/unset/{id}', name: 'delete_magazine', requirements: ['id' => '\d+'], methods: ['POST'])]
+    public function unset(Magazine $magazine, MagazineRepository $magazineRepository, Request $request): RedirectResponse
+    {
+        $tokenCsrf = $request->request->get('token');
+
+        // compare le jetton avec le serveur
+        // passer une clé 'delete-category-'. $category->getId()'
+        if ($this->isCsrfTokenValid('delete-magazine-'. $magazine->getId(), $tokenCsrf)) {
+
+            $magazineRepository->remove($magazine, true);
+            $this->addFlash('success', 'Le magazine à bien été supprimé');
+        }
+
+        return $this->redirectToRoute('app_home');
     }
 
 }
