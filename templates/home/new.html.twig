@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Editer le magazine{% endblock %}
+
+{% block body %}
+
+    <div class="container w-60 py-4">
+        
+        <div class="d-flex align-items-center justify-content-between pb-5">
+            <div>
+                <h1 class="display-5 m-0">Nouveau magazine</h1>
+            </div>
+        <a href="{{ path('app_home') }}" title="Retour à la liste" class="btn btn-outline-secondary">
+            Retour à la liste
+        </a>
+        </div>
+
+        {{ form(form) }}
+    </div>
+
+{% endblock %}

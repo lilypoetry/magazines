@@ -1,0 +1,64 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nouvelle category{% endblock %}
+
+{% block body %}
+
+    <style>
+        .pill {
+            height: 12px;
+            width: 12px;
+            border-radius: 50%;
+        }
+    </style>
+
+    <div class="container w-60 py-4">
+        <div class="d-flex align-items-center justify-content-between pb-5">
+            <div>
+                <h1 class="display-5 m-0">Catégories</h1>
+                <p class="lead">Liste de toutes les catégories</p>
+            </div>
+            <a href="{{ path('category_new') }}" title="Nouvelle catégorie" class="btn btn-success">
+                Nouvelle catégorie
+            </a>
+        </div>
+
+        {% for message in app.flashes('success') %}
+            <div class="alert alert-success" role="alert">
+                {{ message }}
+            </div>
+        {% endfor %}
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Nom de la catégorie</th>
+                    <th colspan="2">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for category in categories %}
+                    <tr>
+                        <td>
+                            <div class="d-flex align-items-center">
+                                <div class="pill me-2" style="background-color: {{ category.color }}"></div>
+                                {{ category.name }}
+                            </div>
+                        </td>
+                        <td>
+                            <a href="{{ path('edit_category', { id: category.id }) }}" title="Editer cette catégorie" class="btn btn-sm btn-secondary">Editer</a>
+                        </td>
+                        <td>
+                            <form action="{{ path('delete_category', { id: category.id }) }}" method="post">                          
+                                <input type="hidden" name="token" value="{{ csrf_token('delete-category-'~ category.id) }}">
+                                <button class="btn btn-sm btn-outline-danger">Supprimer</button>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    
+        
+{% endblock %}

@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Magazines !{% endblock %}
+
+{% block body %}
+
+    <style>
+        .colorCategory {
+            color: {{ magazine.category.color }};
+        }
+    </style>
+
+    <h1>{{ magazine.name }}</h1>
+    <p>{{ magazine.price }}</p>
+    <p>Date de création : {{ magazine.createdAt|date('d-m-Y')}}</p>
+    <p class="colorCategory">Catégorie: {{ magazine.category.name }}</p>
+
+    
+{% endblock %}

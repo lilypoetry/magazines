@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nouvelle catégorie{% endblock %}
+
+{% block body %}
+
+    <div class="container w-60 py-4">
+        <div class="d-flex align-items-right justify-content-between pb-5">
+            <div>
+                <h1 class="display-5 m-0">Ajouter une nouvelle catégorie</h1>
+            </div>
+            <div>
+                <a href="{{ path('category_list') }}" title="Liste catégorie" class="btn btn-outline-success">
+                    Retourner à la liste
+                </a>
+            </div>            
+        </div>
+
+        {{ form_start(form) }}
+        {{ form_end(form) }}
+    </div>
+
+{% endblock %}

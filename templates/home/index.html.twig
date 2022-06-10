@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Magazines !{% endblock %}
+
+{% block body %}
+    <h1 class="container pb-4">Listes des Magazines</h1>
+
+    <table class="table container">
+        <thead>
+           <tr>
+                <th>Name</th>
+                <th>Détails</th>
+            </tr> 
+        </thead>
+        <tbody>
+            {% for magazine in magazines %}
+                <tr>
+                    <td>{{ magazine.name }}</td>
+                    <td>
+                        <a href="{{ path('details_magazine', { id: magazine.id }) }}">Voir plus de détails...</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+        
+    </table>
+
+{% endblock %}

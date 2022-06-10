@@ -1,0 +1,30 @@
+
+Zines
+
+* Créer un projet Symfony 6 nommé « Zines » * Créer une table SQL au nom de 
+« magazine » avec les champs suivants : * id, name, price, created_at * Insérer 
+quelques données de tests grâce à une fixture * Sur la page d’accueil, afficher 
+la totalité des données de cette table SQL, mais seulement les noms : * Chacune 
+des données doit posséder un lien « Voir plus de détails… » * Ce lien redirige 
+vers une route nommée « /magazine/{id} » : * Afficher les détails du magazine 
+selon l’ID transféré
+
+* Créer une entité « Category » contenant les champs suivants : id, name, color ; 
+* Relier l’entité « Magazine » à celle-ci ; 
+* Remplir de nouveau les tables grâce aux fixtures ; 
+* Dans le page affichant les détails d’un magazine, afficher le nom de la catégorie et 
+mettre le texte en couleur grâce à la donnée enregistrée dans la propriété « color ».
+
+Retour au projet « Zines » :
+* Créer une nouvelle page avec pour route : « /category », dans laquelle vous 
+afficher la totalité des catégories avec deux liens pour chaque catégorie : 
+« Editer » et « Supprimer »;
+* Sur la page qui vient d’être créée, ajouter un bouton « Nouvelle catégorie » 
+redirigeant vers une nouvelle page dont la route est « /category/new »;
+* Générer un formulaire permettant d’ajouter de nouvelles catégories. Ne pas oublier 
+les contraintes de validation;
+* Revenir sur la page d’accueil du projet et ajouter un bouton « Nouveau magazine », 
+redirigeant vers une page dont la route est « /magazine/new »;
+* Générer un formulaire permettant d’ajouter de nouveaux magazines. À la validation 
+du formulaire, si le magazine a bien été enregistré, afficher un message de succès, 
+non pas sur le formulaire, mais sur la page d’accueil.
