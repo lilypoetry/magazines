@@ -33,6 +33,7 @@ class HomeController extends AbstractController
         ]);
     }
 
+    // crée une route pour afficher la liste de category
     #[Route('/category', name: 'category_list')]
     public function listCategory(CategoryRepository $categoryRepository): Response 
     {      

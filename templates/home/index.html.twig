@@ -2,6 +2,12 @@
 
 {% block title %}Magazines !{% endblock %}
 
+{% block javascripts %}
+    {# Récupère le contenu de block "javascripts" de la base.html.twig pour éviter que son contenu ne soit écrasé par celui-ci #}
+    {{ parent() }}
+    <script src="{{ asset('js/deleteMagazine.js') }}" defer></script>
+{% endblock %}
+
 {% block body %}
     <h1 class="container pb-4">Listes des Magazines</h1>
 
@@ -44,5 +50,27 @@
 
         </tbody>        
     </table>    
+
+    {# Modal Bootstrap de confirmation de suppression #}
+    <div class="modal fade" id="confirmDelete" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Confirmation de suppression</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Êtes-vous sûr de vouloir supprimer cet article ?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Non</button>
+                    <form action="" method="post" class="d-inline btn-delete-modal">
+                        <input type="hidden" name="token" class="input-token-csrf" value="">
+                        <button class="btn btn-danger">Oui, je supprime</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 
 {% endblock %}
