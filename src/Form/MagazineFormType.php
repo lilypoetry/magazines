@@ -9,9 +9,11 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Vich\UploaderBundle\Form\Type\VichImageType;
 
 class MagazineFormType extends AbstractType
 {
@@ -38,6 +40,18 @@ class MagazineFormType extends AbstractType
                 'class' => Category::class,
                 'choice_label' => 'name'
             ])
+            ->add('description', TextareaType::class, [
+                'label' => 'Description du magazine',
+                'required' => false
+            ])
+            ->add('coverFile', VichImageType::class, [
+                    'imagine_pattern' => 'thumb', // Applique une configuration LiipImagine sur l'image
+                    'download_label' => false, // Enlève le lien de téléchargement
+                    'label' => 'Image de couverture',
+                    'required' => false,
+                    'delete_label' => 'Cocher pour supprimer cette image'
+            ])
+
             ->add('save', SubmitType::class, [
                 'label' => 'Enregistrer'
             ])

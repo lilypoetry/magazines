@@ -9,19 +9,29 @@ use App\Form\MagazineFormType;
 use App\Repository\CategoryRepository;
 use App\Repository\MagazineRepository;
 use Doctrine\ORM\EntityManager;
+use Knp\Component\Pager\Pagination\PaginationInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Knp\Component\Pager\PaginatorInterface;
 
 class HomeController extends AbstractController
 {
     #[Route('/home', name: 'app_home')]
-    public function index(MagazineRepository $magazineRepository): Response
+    public function index(MagazineRepository $magazineRepository, PaginatorInterface $paginatorInterface, Request $request): Response
     {
+        // Création de la pagination de résultats
+        $magazines = $paginatorInterface->paginate(
+            $magazineRepository->findAll(), // Requête SQL/DQL
+            $request->query->getInt('page', 1), // Numérotation des pages
+            $request->query->getInt('numbers', 5) // Nombre d'enregistrements par page
+        );
+
         return $this->render('home/index.html.twig', [
-            'magazines' => $magazineRepository->findAll()
+            // 'magazines' => $magazineRepository->findAll()
+            'magazines' => $magazines
         ]);
     }
 
@@ -130,8 +140,8 @@ class HomeController extends AbstractController
     }
 
     // Creée une route pour editer un magazine
-    /* #[Route('/magazine/edit/{id}', name: 'edit_magazine', requirements: ['id' => '\d+'])]
-    public function edit(Magazine $magazine, MagazineRepository $magazineRepository, Request $request): Response
+    #[Route('/magazine/modif/{id}', name: 'edit_magazine', requirements: ['id' => '\d+'])]
+    public function modif(Magazine $magazine, MagazineRepository $magazineRepository, Request $request): Response
     {
         // $magazine = new Magazine(); est recuperer dans edit(Magazine $magazine, ...)
         $form = $this->createForm(MagazineFormType::class, $magazine);
@@ -143,12 +153,12 @@ class HomeController extends AbstractController
             $magazineRepository->add($magazine, true);
             $this->addFlash('success', 'Le magazine à bien été enregistrée');            
 
-            return $this->redirectToRoute('details_magazine');
+            return $this->redirectToRoute('app_home');
         }
         return $this->render('home/editmag.html.twig', [
             'form' => $form->createView()
         ]);
-    } */
+    }
 
     // Créer une route pour supprime un magazine
     #[Route('/magazine/unset/{id}', name: 'delete_magazine', requirements: ['id' => '\d+'], methods: ['POST'])]

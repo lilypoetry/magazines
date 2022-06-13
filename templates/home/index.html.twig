@@ -9,9 +9,12 @@
 {% endblock %}
 
 {% block body %}
-    <h1 class="container pb-4">Listes des Magazines</h1>
-
-    <a class="btn btn-outline-primary" href="{{ path('new_magazine') }}">Ajouter</a>
+    <div class="d-flex align-items-center justify-content-between pb-5">
+        <div>
+            <h1 class="container pb-4">Listes des Magazines</h1>
+        </div>
+        <a class="btn btn-outline-primary" href="{{ path('new_magazine') }}">Ajouter</a>
+    </div>    
 
     {% for message in app.flashes('success') %}
         <div class="alert alert-success" role="alert">
@@ -19,17 +22,34 @@
         </div>
     {% endfor %}
 
+    <form method="GET"> {# ?numbers=3 #}
+        <label for="numbers">Nombre de magazine par page</label>
+        <input type="hidden" name="page" value="{{ app.request.query.get('page', 1) }}">
+        <select name="numbers" id="numbers" onchange="this.form.submit();">
+            <option value="5">Choisissez une option</option>
+            <option value="5">5 par page</option>
+            <option value="3">3 par page</option>
+            <option value="1">1 par page</option>
+        </select>
+    </form>
+
     <table class="table container">
         <thead>
            <tr>
                 <th>Titre du magazine</th>
-                <th colspan="3">Actions</th>
+                <th colspan="4">Actions</th>
             </tr> 
         </thead>
         <tbody>
 
             {% for magazine in magazines %}
                 <tr>
+                    <td class="py-3">
+                        {# Si l'image existe, on l'affiche en appliquant un filtre #}
+                        {% if vich_uploader_asset(magazine, 'coverFile') is not null %}
+                            <img src="{{ vich_uploader_asset(magazine, 'coverFile')|imagine_filter('thumb') }}" alt="{{ magazine.name }}">
+                        {% endif %}
+                    </td>
                     <td class="py-3">{{ magazine.name }}</td>    
                     <td class="py-3">
                         <a href="{{ path('details_magazine', { id: magazine.id }) }}" class="btn btn-outline-warning btn-sm">
@@ -37,7 +57,7 @@
                         </a>
                     </td>
                     <td>    
-                        <a href="" class="btn btn-sm btn-outline-secondary">Editer</a>
+                        <a href="{{ path('edit_magazine', {id: magazine.id }) }}" class="btn btn-sm btn-outline-secondary">Editer</a>
                     </td>
                     <td>
                         <form action="{{ path('delete_magazine', { id: magazine.id }) }}" method="post">                          
@@ -50,6 +70,10 @@
 
         </tbody>        
     </table>    
+
+    {# Affiche la numérotations des pages #}
+    {{ knp_pagination_render(magazines) }}
+
 
     {# Modal Bootstrap de confirmation de suppression #}
     <div class="modal fade" id="confirmDelete" tabindex="-1" aria-hidden="true">

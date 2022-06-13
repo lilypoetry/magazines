@@ -6,14 +6,32 @@
 
     <style>
         .colorCategory {
-            color: {{ magazine.category.color }};
+            height: 12px;
+            width: 12px;
+            border-radius: 50%;
+            background-color: {{ magazine.category.color }};
         }
     </style>
 
-    <h1>{{ magazine.name }}</h1>
-    <p>{{ magazine.price }}</p>
-    <p>Date de création : {{ magazine.createdAt|date('d-m-Y')}}</p>
-    <p class="colorCategory">Catégorie: {{ magazine.category.name }}</p>
+    <div class="d-flex align-items-center justify-content-between">
+        <h1 class="display-4">{{ magazine.name }}</h1>
+        <p class="display-6">{{ magazine.price }}€</p>
+    </div>
 
+    <div class="d-flex align-items-center justify-content-between pb-5">
+        <p class="muted">Créer le {{ magazine.createdAt|date('d.m.Y') }}</p>
+        <div class="d-flex align-items-center">
+            <div class="colorCategory me-1"></div> {{ magazine.category.name }}
+        </div>
+    </div>
+
+    {% if vich_uploader_asset(magazine, 'coverFile') id not null %}
+        <p>
+            {# <img src="{{ asset('images/upload/covers/'~ magazine.cover) }}" alt="{{ magazine.name }}"> 
+            <img src="/images/upload/covers/{{ magazine.cover }}" alt="{{ magazine.name }}">#}
+            <img src="{{ vich_uploader_asset(magazine, 'coverFile')|imagine_filter('details') }}" alt="{{ magazine.name }}">
+        </p>
+    {% endif %}
+    <p>Description</p> 
     
 {% endblock %}
