@@ -7,7 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[IsGranted('ROLE_USER')]
+//#[IsGranted('ROLE_USER')]
 class AccountController extends AbstractController
 {
     #[Route('/account', name: 'app_account')]
