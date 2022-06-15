@@ -26,10 +26,30 @@
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                     <li class="nav-item">
                         <a class="nav-link" href="{{ path('app_home') }}">Magazines</a>
+                    </li>                    
+                    {% if app.user is not null %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('category_list') }}">Catégories</a>
+                        </li>
+                    {% endif %}
+                    <li class="nav-item d-flex align-items-center px-2 my-2">
+                        <div class="vr text-white"></div>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ path('category_list') }}">Catégories</a>
-                    </li>
+                    {% if app.user is not null %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('app_account') }}">Bonjour {{ app.user.userIdentifier }}</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-warning" href="{{ path('app_logout') }}">Se déconnecter</a>
+                        </li>
+                    {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('app_login') }}">Se connecter</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('app_register') }}">Ouvrir un compte</a>
+                        </li>
+                    {% endif %}
                 </ul>
                 </div>
             </div>

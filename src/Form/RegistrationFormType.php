@@ -8,6 +8,7 @@ use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -22,10 +23,20 @@ class RegistrationFormType extends AbstractType
     {
         $builder
             ->add('last_name', TextType::class, [
-                'label' => 'Nom'
+                'label' => 'Nom',
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'Le nom est obligatoire'
+                    ])
+                ]
             ])
             ->add('first_name', TextType::class, [
-                'label' => 'Prénom'
+                'label' => 'Prénom',
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'Le prénom est obligatoire'
+                    ])
+                ]
             ])
             ->add('email', EmailType::class, [
                 'label' => 'Adresse email',
@@ -39,32 +50,36 @@ class RegistrationFormType extends AbstractType
                 ]
             ])
             ->add('agreeTerms', CheckboxType::class, [
+                'label' => 'J\'accept...',
                 'mapped' => false,
                 'constraints' => [
                     new IsTrue([
-                        'message' => 'You should agree to our terms.',
+                        'message' => 'Vous devez accepter les termes...',
                     ]),
                 ],
             ])
             ->add('plainPassword', RepeatedType::class, [
                 'type' => PasswordType::class, 
-                'invalid_message' => 'Mot de pass doit être identique',
+                'invalid_message' => 'Mot de passe doit être identique',
                 'options' => ['attr' => ['class' => 'password-field', 'autocomplete' => 'new-password']],                
-                'first_options' => ['label' => 'Mot de pass'],
-                'second_options' => ['label' => 'Confirmer votre mot de pass'],
+                'first_options' => ['label' => 'Mot de passe'],
+                'second_options' => ['label' => 'Confirmer votre mot de passe'],
                 'required' => true,
                 'mapped' => false, 
                 'constraints' => [
                     new NotBlank([
-                        'message' => 'Please enter a password',
+                        'message' => 'Le mot de pass est obligatoire',
                     ]),
                     new Length([
                         'min' => 6,
-                        'minMessage' => 'Your password should be at least {{ limit }} characters',
+                        'minMessage' => 'Le mot de passe doit contenir au minimum {{ limit }} caractères',
                         // max length allowed by Symfony for security reasons
                         'max' => 4096,
                     ]),
                 ],
+            ])
+            ->add('save', SubmitType::class, [
+                'label' => 'Ouvrir mon compte'
             ])
         ;
     }

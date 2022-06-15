@@ -57,15 +57,18 @@
                             Voir plus de détails...
                         </a>
                     </td>
-                    <td>    
-                        <a href="{{ path('edit_magazine', {id: magazine.id }) }}" class="btn btn-sm btn-outline-secondary">Editer</a>
-                    </td>
-                    <td>
-                        <form action="{{ path('delete_magazine', { id: magazine.id }) }}" method="post">                          
-                            <input type="hidden" name="token" value="{{ csrf_token('delete-magazine-'~ magazine.id) }}">
-                            <button class="btn btn-sm btn-outline-danger">Supprimer</button>
-                        </form>
-                    </td>
+                    {% if app.user is not null %}
+                        <td>    
+                            <a href="{{ path('edit_magazine', {id: magazine.id }) }}" class="btn btn-sm btn-outline-secondary">Editer</a>
+                        </td>
+                        <td>
+                            <form action="{{ path('delete_magazine', { id: magazine.id }) }}" method="post">                          
+                                <input type="hidden" name="token" value="{{ csrf_token('delete-magazine-'~ magazine.id) }}">
+                                <button class="btn btn-sm btn-outline-danger">Supprimer</button>
+                            </form>
+                        </td>
+                    {% endif %}
+                    
                 </tr>
             {% endfor %}
 

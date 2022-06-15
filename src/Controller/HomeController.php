@@ -16,6 +16,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Knp\Component\Pager\PaginatorInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+
 
 class HomeController extends AbstractController
 {
@@ -53,6 +55,8 @@ class HomeController extends AbstractController
         ]);
     }
 
+    #[IsGranted('ROLE_USER')]
+    
     // crée une route pour afficher une formulaire ajout d'une nouvelle category
     #[Route('category/new', name: 'category_new')]
     public function newCategory(Request $request, CategoryRepository $categoryRepository): Response
@@ -79,6 +83,8 @@ class HomeController extends AbstractController
         ]);
     }
 
+    #[IsGranted('ROLE_USER')]
+
     // Crée une route pour afficher une formulaire ajoute d'un nouveau magazine
     #[Route('/magazine/new', name: 'new_magazine')]
     public function new(Request $request, MagazineRepository $magazineRepository): Response
@@ -101,6 +107,8 @@ class HomeController extends AbstractController
         
     }
 
+    #[IsGranted('ROLE_USER')]
+
     // Creée une route pour editer une category
     #[Route('/category/edit/{id}', name: 'edit_category', requirements: ['id' => '\d+'])]
     public function edit(Category $category, CategoryRepository $categoryRepository, Request $request): Response
@@ -122,6 +130,8 @@ class HomeController extends AbstractController
         ]);
     }
 
+    #[IsGranted('ROLE_USER')]
+
     // Créer une route pour supprime une category
     #[Route('/category/delete/{id}', name: 'delete_category', requirements: ['id' => '\d+'], methods: ['POST'])]
     public function delete(Category $category, CategoryRepository $categoryRepository, Request $request): RedirectResponse
@@ -138,6 +148,8 @@ class HomeController extends AbstractController
 
         return $this->redirectToRoute('category_list');
     }
+
+    #[IsGranted('ROLE_USER')]
 
     // Creée une route pour editer un magazine
     #[Route('/magazine/modif/{id}', name: 'edit_magazine', requirements: ['id' => '\d+'])]
@@ -160,6 +172,7 @@ class HomeController extends AbstractController
         ]);
     }
 
+    #[IsGranted('ROLE_USER')] // pour avoir access
     // Créer une route pour supprime un magazine
     #[Route('/magazine/unset/{id}', name: 'delete_magazine', requirements: ['id' => '\d+'], methods: ['POST'])]
     public function unset(Magazine $magazine, MagazineRepository $magazineRepository, Request $request): RedirectResponse
